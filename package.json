@@ -1,6 +1,6 @@
 {
   "name": "egg-rpc4js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "sofa-rpc-node的 egg 插件版本",
   "eggPlugin": {
     "name": "rpc4js"
