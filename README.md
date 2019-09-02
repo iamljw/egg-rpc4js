@@ -64,7 +64,7 @@ exports.rpc4js = {
 ## 使用场景
 
 - Why and What: 微服务架构一个主要的问题就是服务间通讯，传统的HttpClient方式性能低、过程复杂，因而采用[sofarpc的node版本](https://github.com/sofastack/sofa-rpc-node)替代传统方案，sofarpc实现了服务注册、发现、负载均衡、故障熔断等功能，本项目作为sofa-rpc-node的 egg 插件版本，帮助开发者更快的集成rpc功能。
-- How: 本插件依赖 zookeeper 作为注册中心，应先在本地或服务器上部署 zookeeper，默认启动端口为`2181`。
+- How: 本插件依赖 zookeeper 作为注册中心，应先在本地或服务器上部署 zookeeper，默认启动端口为 `2181`。
 
 ## 详细配置
 
@@ -88,7 +88,20 @@ exports.rpc4js = {
 ```
 
 ## 接口实现
-
+rpc应用目录结构：
+```js
+egg-example
+├── app
+│   ├── controller // 普通接口实现目录
+│   │   └── home.js
+|   ├── rpc // RPC接口实现目录
+|   |   └── handler.js
+│   └── router.js
+├── config
+│   └── config.default.js
+└── package.json
+```
+实现类：
 ```js
 // ${baseDir}/app/rpc/handler.js
 'use strict';
@@ -110,6 +123,7 @@ module.exports = Handler;
 ## 调用RPC服务
 
 ```js
+// ...
 await ctx.rpc.serviceName.methodName(...args);
 // 或者
 await app.rpc.serviceName.methodName(...args);
