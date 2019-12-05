@@ -59,7 +59,7 @@ class AppBootHook {
             for (const cfn of classArr) {
                 // ------------ 加载接口实现 ------------
                 const HandlerClass = require(path.join(process.cwd(), path.join('/app/rpc/', cfn)));
-                const handlerObj = new HandlerClass(app);
+                const handlerObj = new HandlerClass(app, app.createAnonymousContext());
 
                 const interfaceName = `${namespace}.${cfn.split('.')[0]}`;
                 // ------------ 添加服务 ------------

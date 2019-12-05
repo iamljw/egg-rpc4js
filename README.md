@@ -108,8 +108,9 @@ egg-example
 'use strict';
 
 class Handler {
-    constructor(app) {
+    constructor(app, ctx) {
         this.app = app;
+        this.ctx = ctx;
         this.getUser = this.getUser.bind(this); // 方法中需要引用上下文的务必加上
     }
 
