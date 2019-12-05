@@ -75,13 +75,13 @@ exports.rpc4js = {
     },
     client: {
         services: [{
-            serviceName: 'account', // 服务名
-            interfaceName: 'cn.com.tichain.account.UserService' // 接口名
+            namespace: 'account', // 服务命名空间
+            modules: ['wallet', 'security'] // 选择消费该服务下的模块功能
         }],
         responseTimeout: 3000 // 响应超时（单位：ms）
     },
     server: {
-        namespace: 'cn.com.tichain.integral.TransactionService', // 要暴露出去的接口名
+        namespace: 'market', // 服务命名空间
         port: 12200 // 监听端口
     }
 }
@@ -95,7 +95,8 @@ egg-example
 │   ├── controller // 普通接口实现目录
 │   │   └── home.js
 |   ├── rpc // RPC接口实现目录
-|   |   └── handler.js
+|   |   └── m1.js
+|   |   └── m2.js
 │   └── router.js
 ├── config
 │   └── config.default.js
@@ -109,6 +110,7 @@ egg-example
 class Handler {
     constructor(app) {
         this.app = app;
+        this.getUser = this.getUser.bind(this); // 方法中需要引用上下文的务必加上
     }
 
     async getUser() {
@@ -124,9 +126,17 @@ module.exports = Handler;
 
 ```js
 // ...
-await ctx.rpc.serviceName.methodName(...args);
+await ctx.rpc.namespace.module.interfaceName(...args);
 // 或者
-await app.rpc.serviceName.methodName(...args);
+await app.rpc.namespace.module.interfaceName(...args);
+/**
+ * 说明
+ * namespace 为服务命名空间
+ * module 为该服务提供的rpc模块
+ * interfaceName 为该模块的接口
+ * 
+ * 请在使用中根据实际情况进行替换
+ * /
 ```
 
 ## 单元测试
