@@ -61,6 +61,12 @@ class AppBootHook {
                 const HandlerClass = require(path.join(process.cwd(), path.join('/app/rpc/', cfn)));
                 const handlerObj = new HandlerClass(app, app.createAnonymousContext());
 
+                for (const key of Reflect.ownKeys(HandlerClass.prototype)) {
+                    if (key !== 'constructor' && typeof handlerObj[key] === 'function') {
+                        handlerObj[key] = handlerObj[key].bind(this);
+                    }
+                }
+
                 const interfaceName = `${namespace}.${cfn.split('.')[0]}`;
                 // ------------ 添加服务 ------------
                 server.addService({
